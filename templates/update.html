@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	{% if item %}
+
+	<form method="post">{% csrf_token %}
+  		<div class="form-row">
+    		<div class="form-group col-md-6">
+      			<label for="content"></label>
+      			<input type="text" name="content" class="form-control" id="content" value="{{ item.content }}">
+      			<input type="hidden" name="done" value="{{ item.done }}">
+    		</div>
+   		</div>
+  		<button type="submit" class="btn btn-primary">Update Item</button>
+      <a class="btn btn-danger" href="{% url 'todoView' %}">Back</a>
+	</form>
+
+	{% endif %}
+
+
+
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<form action="/addTodo/" method="post">{% csrf_token %}
+  <div class="form-row">
+    <div class="form-group col-md-8">
+      <label for="content"></label>
+      <input type="text" name="content" class="form-control" id="content">
+    </div>
+   </div>
+  	<button type="submit" class="btn btn-primary">Add Item</button>
+</form><br/>
+
+<div style="float: left;margin-right:10px">
+	<table class="table table-bordered table-sm" style="width:740px">
+		<thead class="table-primary">
+			<tr>
+	      		<th scope="col" style="width:60%">LIST OF TODO ITEMS</th>
+	      		<th scope="col" style="width:40%">ACTIONS</th>
+	      	</tr>
+	     </thead>
+	  {% if all_items %}
+		{% for todo_item in all_items %}
+			{% if todo_item.done == False %}
+				<tr>
+					<td>{{ todo_item.content }}</td>
+					<td style="text-align: center"><a class="btn btn-warning" href="{% url 'doneTodo' todo_item.id %}"><center>Done</center></a>
+					<a class="btn btn-success" href="{% url 'updateTodo' todo_item.id %}"><center>Update</center></a>
+					<a class="btn btn-danger" href="{% url 'deleteTodo' todo_item.id %}"><center>Delete</center></a>
+					</td>
+				</tr>
+			{% endif %}
+		{% endfor %}
+	  {% endif %}
+	</table>
+</div>
+
+<div style="float: left">
+  <table class="table table-bordered table-sm" style="width:350px">
+		<thead class="table-danger">
+			<tr>
+	      		<th scope="col" style="width:60%">COMPLETED ITEMS</th>
+	      		<th scope="col" style="width:60%">ACTION</th>
+	      	</tr>
+	     </thead>
+	     {% if all_items %}
+			{% for todo_item in all_items %}
+				{% if todo_item.done == True %}
+					<tr>
+						<td>{{ todo_item.content }}</td>
+						<td style="text-align: center"><a class="btn btn-warning" href="{% url 'undoneTodo' todo_item.id %}"><center>Re-do</center></a></td>
+					</tr>
+				{% endif %}
+
+			{% endfor %}
+	  	{% endif %}
+	</table>
+</div>
+
+
+{% endblock %}
